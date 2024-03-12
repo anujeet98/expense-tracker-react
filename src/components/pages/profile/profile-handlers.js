@@ -73,10 +73,35 @@ const fetchProfileHandler = async() => {
     }
 }
 
+const emailVerificationHandler = async() => {
+    try{
+        const token  = localStorage.getItem('expensetracker-token');
+
+        if(!token)
+            throw new Error('user session expired, kindly sign in again');
+
+        const res = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=${FIREBASEKEY}`,{
+            method: 'POST',
+            body: JSON.stringify({requestType: 'VERIFY_EMAIL', idToken: token}),
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        });
+        const resData = res.json();
+        if(!res.ok){
+            throw new Error(resData.error.message);
+        }
+        alert('Email verification request sent');
+    }
+    catch(err){
+        alert(err.message);
+    }
+}
 
 
 module.exports = {
     updateProfileBackendHandler,
     updateProfileHandler,
     fetchProfileHandler,
+    emailVerificationHandler,
 }
