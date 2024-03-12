@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Button, Container, Form, Row } from "react-bootstrap";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { updateProfileHandler, fetchProfileHandler, emailVerificationHandler } from './profile-handlers';
+import NavBar from "../../NavBar/NavBar";
 
 
 
@@ -30,10 +31,7 @@ const Profile = () => {
 
     return (
         <Container fluid className="p-0">
-            <div className="border-bottom border-bg-dark border-2 p-3 shadow d-flex justify-content-between ">
-                <span className="fst-italic ">Welcome to Expense Tracker!!!</span>
-            </div>
-
+            <NavBar/>
             <h1 className="fw-medium mt-3 ps-3" style={{fontSize:'1.5rem'}}>Contact Details</h1>
             <span className="ps-3 fw-medium me-2">Email: {email}</span><span>{!isVerify ? <Button onClick={()=>emailVerificationHandler()}>Verify</Button> : ''}</span>
             <Form onSubmit={(e)=>updateProfileHandler(e,nameRef.current.value, photoRef.current.value)} className="ps-3 mt-2">
