@@ -69,7 +69,7 @@ const Authentication = () => {
                 <Form.Control type='email' placeholder='Email' ref={emailRef} required></Form.Control>
                 <Form.Control type='password' placeholder='Password' ref={passwordRef} required></Form.Control>
                 {!isSignIn && <Form.Control type='password' placeholder='Confirm Password' ref={cnfPasswordRef} required></Form.Control>}
-                {isSignIn && <NavLink to='/forget'>forgot password</NavLink>}
+                {isSignIn && <NavLink to='/password/forget'>forgot password</NavLink>}
                 <Button type="submit" className="rounded-5 mt-3">{isSignIn ? 'Sign In' : 'Sign Up'}</Button>
             </Form>
             <div className="btn border border-dark  ms-auto shadow p-2 rounded-2 bg-success-subtle " onClick={()=>setIsSignIn(!isSignIn)} style={{width: '20rem'}}>
