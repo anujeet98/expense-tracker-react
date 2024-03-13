@@ -11,7 +11,7 @@ const NavBar = (props) => {
         }
     }
     return (
-        <div className="border-bottom border-bg-dark border-2 p-3 shadow d-flex justify-content-between ">
+        <div className="bg-dark text-white border-bottom border-dark border-2 p-3 shadow d-flex justify-content-between flex-column flex-sm-row">
             <span className="fst-italic ">Welcome to Expense Tracker!!!</span>
             <div>
                 {props.children}

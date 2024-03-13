@@ -1,0 +1,17 @@
+.expense{
+    padding: 1rem;
+    margin: 1rem auto;
+    width: 50rem;
+    max-width: 95%;
+    background-color: rgb(31, 31, 31);
+    font-size: medium;
+
+    max-height: 38rem;
+}
+
+.displayContainer{
+    overflow-y: scroll;
+    scrollbar-width: none;
+    height: auto;
+
+}
