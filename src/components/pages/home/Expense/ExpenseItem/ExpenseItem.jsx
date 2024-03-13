@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 
 // <span onClick={()=>setHideDescr(!hideDescr)} className="fw-bolder me-1" style={{fontSize:'12px'}}>{hideDescr ? 'V' : 'Ʌ' }</span> 
@@ -23,4 +23,4 @@ const ExpenseItem = (props) => {
     )
 }
 
-export default ExpenseItem;
+export default memo(ExpenseItem);

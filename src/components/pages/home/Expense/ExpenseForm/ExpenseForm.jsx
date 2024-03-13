@@ -11,7 +11,7 @@ const ExpenseForm = (props) => {
         e.preventDefault();
         if(amountRef.current.value<=0)
             return alert('Amount must be greater than 0');
-        props.onExpenseAdd({id: new Date(), category: categoryRef.current.value, amount: amountRef.current.value, description: descriptionRef.current.value});
+        props.onExpenseAdd({category: categoryRef.current.value, amount: amountRef.current.value, description: descriptionRef.current.value});
         amountRef.current.value='';
         descriptionRef.current.value='';
         // categoryRef.current.value='';
