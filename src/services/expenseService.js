@@ -33,7 +33,28 @@ const saveExpenseToDB = async(methodType, idToEdit, expenseObj) => {
 }
 
 
+const deleteExpenseFromDB = async(id) => {
+    try{
+        const res = await fetch(`https://expense-tracker-6d78c-default-rtdb.firebaseio.com/expense/expense/${id}.json`,{
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'Application/json'
+            }
+        });
+        const resData = await res.json();
+        if(!res.ok)
+            throw new Error(resData);
+        
+        alert('Item has been deleted');
+    }
+    catch(err){
+        alert(err.message);
+    }
+}
+
+
 module.exports = {
     fetchExpenseFromDB,
     saveExpenseToDB,
+    deleteExpenseFromDB,
 }
