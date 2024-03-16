@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Button, Form} from "react-bootstrap";
 import classes from './authentication.module.css';
 import { NavLink, useHistory } from "react-router-dom/cjs/react-router-dom.min";

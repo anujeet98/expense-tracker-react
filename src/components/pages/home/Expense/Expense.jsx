@@ -3,42 +3,15 @@ import classes from './ExpenseForm/Expense.module.css';
 import { useEffect, useState } from "react";
 import ExpenseForm from "./ExpenseForm/ExpenseForm";
 import ExpenseItem from "./ExpenseItem/ExpenseItem.jsx";
-
-const fetchExpenseFromDB = async () => {
-    try{
-        const res = await fetch('https://expense-tracker-6d78c-default-rtdb.firebaseio.com/expense/expense.json');
-        const resData = await res.json();
-        if(!res.ok)
-            throw new Error(resData);
-        return resData;
-    }
-    catch(err){
-        throw err;
-    }
-}
-
-const saveExpenseToDB = async(methodType, idToEdit, expenseObj) => {
-    try{
-        const res = await fetch(`https://expense-tracker-6d78c-default-rtdb.firebaseio.com/expense/expense${methodType==='POST'?'':'/'+idToEdit}.json`,{
-            method:`${methodType}`,
-            body:JSON.stringify(expenseObj),
-            headers:{'Content-Type':'Application/json'},
-        });
-        const resData = await res.json();
-        if(!res.ok)
-            throw new Error(resData);
-        
-        return resData;
-    }
-    catch(err){
-        throw err;
-    }
-}
-
+import { fetchExpenseFromDB, saveExpenseToDB} from '../../../../services/expenseService.js'
+import { useDispatch, useSelector } from "react-redux";
+import { expenseSliceActions } from "../../../../store/expenseSlice.js";
 
 const Expense = () => {
+    const dispatch = useDispatch();
+    const expenseList_redux = useSelector((state)=>state.expense.expenseList);
+    const [expenseList, setExpenseList] = useState(expenseList_redux);
     const [showForm, setShowForm] = useState(false);
-    const [expenseList, setExpenseList] = useState([]);
     const [expenseToEdit, setExpenseToEdit] = useState(null);
 
     const total = expenseList.reduce((acc,curr)=>acc+ Number(curr.amount),0);
@@ -81,22 +54,27 @@ const Expense = () => {
     }
 
     useEffect(()=>{
-        (async()=>{
-            try{
-                const expenses = await fetchExpenseFromDB();
-                if(!expenses)
-                    return;
-                setExpenseList(Object.keys(expenses).map(key=>{
-                    return {id:key, ...expenses[key]}
-                }));
-            }
-            catch(err){
-                alert(err.message);
-            }
-        })()
+        if(expenseList_redux.length===0)
+            (async()=>{
+                try{
+                    const expenses = await fetchExpenseFromDB();
+                    if(!expenses)
+                        return;
+                    dispatch(expenseSliceActions.setExpenseList(Object.keys(expenses).map(key=>{
+                        return {id:key, ...expenses[key]}
+                    })));  //redux state update
+                }
+                catch(err){
+                    alert(err.message);
+                }
+            })()
     },[]);
 
-    console.log(expenseList);
+    useEffect(()=>{
+        setExpenseList(expenseList_redux);
+    },[expenseList_redux])
+
+    // console.log(expenseList);
 
     return (
         <Card className={classes.expense + " h-100 p-0 "}>
