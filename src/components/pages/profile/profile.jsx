@@ -25,9 +25,11 @@ const Profile = () => {
         if(photoRef.current.value.trim()==='')
             return alert('Please enter a valid photo url.');
         try{
-            const userProfile = await updateProfileBackend({idToken: userToken, displayName: nameRef.current.value, photoUrl: photoRef.current.value, deleteAttribute: [], returnSecureToken: true});
-            dispatch(authSliceActions.updateProfile(userProfile));
-            alert('user profile updated!');
+            if(nameRef.current.value!==userData.displayName || photoRef.current.value!==userData.photoUrl){
+                const userProfile = await updateProfileBackend({idToken: userToken, displayName: nameRef.current.value, photoUrl: photoRef.current.value, deleteAttribute: [], returnSecureToken: true});
+                dispatch(authSliceActions.updateProfile(userProfile));
+                alert('user profile updated!');
+            }
         }
         catch(err){
             alert(err.message);
