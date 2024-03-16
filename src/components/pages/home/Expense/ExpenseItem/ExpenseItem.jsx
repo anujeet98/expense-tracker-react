@@ -21,8 +21,8 @@ const ExpenseItem = (props) => {
                 <Col className="col-10 ">
                     <Row>
                         <Col className="col-3 d-flex align-items-center fs-4" onClick={()=>setHideDescr(!hideDescr)}>{props.data.category}</Col>
-                        <Col className="col-1"><i className="ri-edit-box-line fs-4" onClick={editHandler}></i></Col>
-                        <Col className="col-1"><i className="ri-delete-bin-4-line fs-4 text-danger " onClick={deleteHandler}></i></Col>
+                        <Col className="col-1"><i className="ri-edit-box-line fs-4 btn border-0 " onClick={editHandler}></i></Col>
+                        <Col className="col-1"><i className="ri-delete-bin-4-line fs-4 text-danger btn border-0 " onClick={deleteHandler}></i></Col>
                     </Row>
                     {!hideDescr && <Row><Col>{props.data.description}</Col></Row>}
                 </Col>

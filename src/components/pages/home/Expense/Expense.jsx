@@ -6,6 +6,7 @@ import ExpenseItem from "./ExpenseItem/ExpenseItem.jsx";
 import { fetchExpenseFromDB } from '../../../../services/expenseService.js'
 import { useDispatch, useSelector } from "react-redux";
 import { expenseSliceActions } from "../../../../store/expenseSlice.js";
+import { authSliceActions } from "../../../../store/authSlice.js";
 
 const Expense = () => {
     const dispatch = useDispatch();
@@ -15,8 +16,9 @@ const Expense = () => {
     const [showForm, setShowForm] = useState(false);
 
     const total = expenseList.reduce((acc,curr)=>acc+ Number(curr.amount),0);
-
+    
     useEffect(()=>{
+        dispatch(authSliceActions.setPremiumStatus(total>10000));
         if(expenseList.length===0)
             (async()=>{
                 try{
@@ -47,7 +49,7 @@ const Expense = () => {
         <Card className={classes.expense + " h-100 p-0 "}>
             <div className="w-100 shadow rounded-3">
             {
-                showForm ? <ExpenseForm onFormClose={()=>{setShowForm(!showForm)}} /> : <i onClick={()=>setShowForm(!showForm)} className="ri-add-box-fill p-0 text-success  ms-2" style={{fontSize: '3rem'}}></i>
+                showForm ? <ExpenseForm onFormClose={()=>{setShowForm(!showForm)}} /> : <i onClick={()=>setShowForm(!showForm)} className="ri-add-box-fill p-0 text-success  ms-2 btn border-0 " style={{fontSize: '3rem'}}></i>
             }
             </div>
 
