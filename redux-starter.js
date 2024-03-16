@@ -19,6 +19,8 @@ const storeSubscriber = store.subscribe(()=>{
     console.log(store.getState());
 });
 
+store.subscribe(storeSubscriber);
+
 store.dispatch({type: 'increment'});
 store.dispatch({type: 'increment'});
 store.dispatch({type: 'increment'});

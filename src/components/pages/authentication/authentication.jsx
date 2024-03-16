@@ -1,31 +1,26 @@
 import { useRef, useState } from "react";
+import { useDispatch, useSelector } from 'react-redux';
 import { Button, Form} from "react-bootstrap";
 import classes from './authentication.module.css';
 import { NavLink, useHistory } from "react-router-dom/cjs/react-router-dom.min";
-// import { Link } from "react-router-dom";
-const FIREBASEKEY = process.env.REACT_APP_FIREBASE_KEY;
+import authenticate from "../../../services/authenticationService";
+import { authSliceActions } from "../../../store/authSlice";
+import { getUserProfile } from "../../../services/userProfileService";
 
-async function authenticationHandler(authType, authobj) {
-    try{
-        const res = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:${authType ? 'signInWithPassword': 'signUp'}?key=${FIREBASEKEY}`,{
-            method: 'POST',
-            body: JSON.stringify(authobj),
-            headers:{
-                'Content-Type': 'application/json'
-            }
-        });
-        const resData = await res.json();
-        if(!res.ok){
-            throw new Error(resData.error.message);
-        }
-        return resData;
+const validateForm = (email, password, confirmPassword, isSignIn) => {
+    if(email.trim()==='' && /\S+@\S+\.\S+/.test(email)){
+        alert('Please enter a valid email.');
+        return false;
     }
-    catch(err){
-        throw err;
+    if(password.trim()==='' || password.length<6){
+        alert('Please enter a valid password. Password must be non-empty and minimum 6 characters long.');
+        return false;
     }
-    finally{
-        // setIsLoading(false);
+    if(!isSignIn && password !== confirmPassword){
+        alert('Password and Confirm-Password do not match.');
+        return false;
     }
+    return true;
 }
 
 
@@ -35,26 +30,30 @@ const Authentication = () => {
     const cnfPasswordRef = useRef('');
     const [isSignIn, setIsSignIn] = useState(true);
     const history = useHistory();
+    const dispatch = useDispatch();
+
 
     const AuthHandler = async(e) => {
-        try{
-            e.preventDefault();
-            if(emailRef.current.value.trim()==='')
-                return alert('Email must be non-empty');
-            if(passwordRef.current.value.trim()==='' || passwordRef.current.value.length<6)
-                return alert('Password must be non-empty and minimum 6 characters long');
-            if(!isSignIn && passwordRef.current.value !== cnfPasswordRef.current.value)
-                return alert('Confirm password field must must match with the password field');
+        e.preventDefault();
+        const email = emailRef.current.value;
+        const password = passwordRef.current.value;
+        const confirmPassword = !isSignIn ? cnfPasswordRef.current.value : '';
+
+        //if form not validated->alert shown->return
+        if(!validateForm(email, password, confirmPassword, isSignIn))
+            return;
     
-            //authCtx.addToken(resData.idToken, resData.expiresIn);
-            const resData = await authenticationHandler(isSignIn, {email: emailRef.current.value, password: passwordRef.current.value, returnSecureToken: true});
+        try{
+            const resData = await authenticate(isSignIn, {email: email, password: password, returnSecureToken: true});
+            const userProfile = await getUserProfile({idToken : resData.idToken});
             localStorage.setItem('expensetracker-token', resData.idToken);
+            dispatch(authSliceActions.login(resData.idToken));
+            dispatch(authSliceActions.updateProfile(userProfile))
             alert(`${isSignIn ? 'User sign in successful' : 'User sign up successful'}`);
             emailRef.current.value='';
             passwordRef.current.value='';
-            if(!isSignIn)
-                cnfPasswordRef.current.value='';
-            history.push('/home');
+            if(!isSignIn) cnfPasswordRef.current.value='';
+            history.push('/');
         }
         catch(err){
             console.log(err.message); 
