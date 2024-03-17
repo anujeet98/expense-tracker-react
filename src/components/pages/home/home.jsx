@@ -19,7 +19,6 @@ const Home = () => {
                     <NavLink to="/profile" className="btn text-light fs-3 m-0 p-0 border-0 "><i className="ri-user-fill"></i></NavLink>
                 </OverlayTrigger> 
             : <span className="fst-italic bg-danger-subtle text-dark p-1 rounded-3" style={{fontSize:'0.8rem'}}>Your profile is incomplete. <NavLink to="/profile">Complete Now</NavLink></span>}</NavBar>
-        
             <Expense/>
         </Container>
     )
