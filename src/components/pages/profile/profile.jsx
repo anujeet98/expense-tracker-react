@@ -4,9 +4,11 @@ import { emailVerificationHandler, updateProfileBackend } from '../../../service
 import NavBar from "../../NavBar/NavBar";
 import { useDispatch, useSelector } from "react-redux";
 import { authSliceActions } from "../../../store/authSlice";
+import './profile.css';
 
 const Profile = () => {
     const dispatch = useDispatch();
+    const isDarkMode = useSelector(state=>state.theme.isDarkMode);
     const userData = useSelector((state)=>state.auth.userData);
     const userToken = useSelector((state)=>state.auth.token);
     const nameRef = useRef('');
@@ -38,7 +40,7 @@ const Profile = () => {
 
 
     return (
-        <Container fluid className="p-0">
+        <Container fluid className={`p-0 vh-100 ${isDarkMode ? 'bg-secondary text-black ' : ''}`}>
             <NavBar/>
             <h1 className="fw-medium mt-3 ps-3" style={{fontSize:'1.5rem'}}>Contact Details</h1>
             <span className="ps-3 fw-medium me-2">Email: {userData.email}</span><span>{!userData.emailVerified ? <Button onClick={()=>emailVerificationHandler()}>Verify</Button> : ''}</span>
@@ -54,8 +56,8 @@ const Profile = () => {
                     </Form.Group>
                 </Row>
                 <Row className="d-flex gap-5 mt-3 ps-3">
-                    <Button type="submit" className="col col-3 col-lg-1 border-0 " style={{backgroundColor: 'rgb(179, 101, 101)'}}>Update</Button>
-                    <Button className="col col-3 col-lg-1" variant="none" style={{border: '2px solid rgb(179, 101, 101)', color: 'rgb(179, 101, 101)'}} onClick={()=>setReset(resetVal => !resetVal)}>Cancel</Button>
+                    <Button type="submit" className={`col col-3 col-lg-1 shadow border-0 ${isDarkMode ? ' bg-danger ' : ' actionBtns ' } `} >Update</Button>
+                    <Button className={`col col-3 col-lg-1 shadow  ${isDarkMode ? ' border-light text-light border border-2 ' : ' actionBtns-cancel ' } `} variant="none" onClick={()=>setReset(resetVal => !resetVal)}>Cancel</Button>
                 </Row>
             </Form>
         </Container>

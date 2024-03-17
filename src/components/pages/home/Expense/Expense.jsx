@@ -1,6 +1,6 @@
 import { Card } from "react-bootstrap";
 import classes from './ExpenseForm/Expense.module.css';
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import ExpenseForm from "./ExpenseForm/ExpenseForm";
 import ExpenseItem from "./ExpenseItem/ExpenseItem.jsx";
 import { fetchExpenseFromDB } from '../../../../services/expenseService.js'
@@ -10,15 +10,17 @@ import { authSliceActions } from "../../../../store/authSlice.js";
 
 const Expense = () => {
     const dispatch = useDispatch();
+    const isDarkMode = useSelector((state) => state.theme.isDarkMode);
+    const premiumStatus = useSelector((state)=>state.auth.premium);
     const expenseState = useSelector((state)=>state.expense.expenseList);
     const expenseToEdit = useSelector((state)=>state.expense.expenseToEdit);
     const [expenseList, setExpenseList] = useState(expenseState);
     const [showForm, setShowForm] = useState(false);
 
     const total = expenseList.reduce((acc,curr)=>acc+ Number(curr.amount),0);
+    if(total>10000) dispatch(authSliceActions.setPremiumEligible());
     
     useEffect(()=>{
-        dispatch(authSliceActions.setPremiumStatus(total>10000));
         if(expenseList.length===0)
             (async()=>{
                 try{
@@ -46,15 +48,16 @@ const Expense = () => {
     // console.log(expenseState);
 
     return (
-        <Card className={classes.expense + " h-100 p-0 "}>
-            <div className="w-100 shadow rounded-3">
+        <Card className={classes.expense + ` h-100 p-0 ${isDarkMode ? 'bg-dark text-light ' : ''} `}>
+            <div className={`w-100 shadow rounded-3 ${isDarkMode ? 'bg-black ' : ''} `}>
             {
-                showForm ? <ExpenseForm onFormClose={()=>{setShowForm(!showForm)}} /> : <i onClick={()=>setShowForm(!showForm)} className="ri-add-box-fill p-0 text-success  ms-2 btn border-0 " style={{fontSize: '3rem'}}></i>
+                showForm ? <ExpenseForm onFormClose={()=>{setShowForm(!showForm)}} /> 
+                : <Fragment><i onClick={()=>setShowForm(!showForm)} className={`ri-add-box-fill p-0 text-success  ms-2 btn border-0 `} style={{fontSize: '3rem'}}></i>{premiumStatus && <i className={`ri-file-download-fill ms-2 p-0 text-primary  btn border-0 `} style={{fontSize: '2.7rem'}}></i>}</Fragment>
             }
             </div>
 
             <div className={classes.displayContainer}>
-                <div className="d-flex justify-content-between ps-2 bg-success-subtle fs-4 fw-bolder border-bottom border-4 border-dark-subtle "><span className="col-10">Total Expenses</span><span className="col-2">Rs. {total}</span></div>
+                <div className={"d-flex justify-content-between ps-2  fs-4 fw-bolder border-bottom border-4 border-dark-subtle "+`${isDarkMode ? 'text-light bg-success ' : ' bg-success-subtle '}`}><span className="col-10">Total Expenses</span><span className="col-2">Rs. {total}</span></div>
                 {
                     expenseList.map((expense)=>(
                         <ExpenseItem key={expense.id} data={expense} />

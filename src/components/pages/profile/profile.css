@@ -1,0 +1,8 @@
+.actionBtns {
+    background-color: rgb(179, 101, 101);
+}
+
+.actionBtns-cancel {
+    color: rgb(179, 101, 101);
+    border: 2px solid rgb(179, 101, 101);
+}

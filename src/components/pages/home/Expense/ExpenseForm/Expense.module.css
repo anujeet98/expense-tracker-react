@@ -13,5 +13,13 @@
     overflow-y: scroll;
     scrollbar-width: none;
     height: auto;
+}
 
+
+.lightMode {
+    background-color: rgb(122, 219, 187);
+}
+
+.darkMode {
+    background-color: rgb(44, 78, 67);
 }

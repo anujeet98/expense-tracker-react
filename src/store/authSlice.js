@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 
 
-const initialState = { isLoggedIn: false, userData: null, token: null, premium: null };
+const initialState = { isLoggedIn: false, userData: null, token: null, premium: null, premiumEligible: false };
 const authSlice = createSlice({
     name: 'auth',
     initialState,
@@ -20,7 +20,10 @@ const authSlice = createSlice({
             state.userData = null;
         },
         setPremiumStatus(state, action){
-            state.premium = action.payload;
+            state.premium = true;
+        },
+        setPremiumEligible(state){
+            state.premiumEligible= true;
         }
     }
 });

@@ -3,9 +3,11 @@ import { Button, Form} from "react-bootstrap";
 import classes from './authentication.module.css';
 import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
 import { resetPassword } from "../../../services/userProfileService";
+import { useSelector } from "react-redux";
 
 
 const ForgetPassword = () => {
+    const isDarkMode = useSelector(state=>state.theme.isDarkMode);
     const emailRef = useRef('');
     const resetHandler = async(e) => {
         try{

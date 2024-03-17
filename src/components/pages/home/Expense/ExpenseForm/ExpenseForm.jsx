@@ -3,9 +3,11 @@ import { Button, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { saveExpenseToDB } from "../../../../../services/expenseService";
 import { expenseSliceActions } from "../../../../../store/expenseSlice";
+import classes from './Expense.module.css'
 
 const ExpenseForm = (props) => {
     const dispatch = useDispatch();
+    const isDarkMode = useSelector(state=>state.theme.isDarkMode);
     const expenseToEdit = useSelector((state)=>state.expense.expenseToEdit);
     const amountRef = useRef(0);
     const descriptionRef = useRef('');
@@ -50,9 +52,9 @@ const ExpenseForm = (props) => {
     }
 
     return (
-        <Form className="p-3 shadow rounded-2 bg-dark" onSubmit={(e)=>formSubmitHandler(e)}>
+        <Form className={` ${isDarkMode ? ` ${classes.darkMode} ` : ` ${classes.lightMode} `}  p-3 shadow rounded-2 `} onSubmit={(e)=>formSubmitHandler(e)}>
             <div className="d-flex gap-3">
-                <Form.Select ref={categoryRef} defaultValue={'Category'} required>
+                <Form.Select ref={categoryRef} defaultValue={'Category'} className={` border-0  border-bottom border border-success  shadow fw-bold ${isDarkMode ? '  ':' bg-transparent '}  `} required>
                     <option>Food</option>
                     <option>Fuel</option>
                     <option>Electronics</option>
@@ -62,14 +64,14 @@ const ExpenseForm = (props) => {
                     <option>Bills</option>
                     <option>Miscellaneous</option>
                 </Form.Select>
-                <Form.Control type="number" ref={amountRef} placeholder="Amount" min={0} required/>
+                <Form.Control type="number" ref={amountRef} placeholder="Amount" className={`border-0  border-bottom border-success  shadow fw-bold ${isDarkMode ? '  ':' bg-transparent '} `} min={0} required/>
                 <div className="d-flex gap-2 align-items-center">
-                    <Button type="submit" className="p-0 m-0 bg-transparent border-0 "><i className="fa fa-check-square fs-1  p-0 m-0 text-success "></i></Button>
-                    <Button type="submit" className="p-0 m-0 bg-transparent border-0 "><i onClick={formCloseHandler} className="fa fa-window-close fs-1 p-0 m-0 text-danger "></i></Button>
+                    <Button type="submit" className="p-0 m-0 bg-transparent border-0  "><i className="fa fa-check-square fs-1  p-0 m-0 text-success shadow  "></i></Button>
+                    <Button type="submit" className="p-0 m-0 bg-transparent border-0  "><i onClick={formCloseHandler} className="fa fa-window-close fs-1 p-0 m-0 text-danger shadow "></i></Button>
                 </div>
             </div>
             <div>
-                <textarea className="form-control mt-3" ref={descriptionRef} rows="2" placeholder="Description" required />
+                <textarea className={`form-control mt-3 shadow border-success fw-bold ${isDarkMode ? '  ':' bg-transparent '}  `} ref={descriptionRef} rows="2" placeholder="Description" required />
             </div>
         </Form>
     )
