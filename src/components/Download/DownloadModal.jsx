@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import generatePDF from "./MyDocument";
 import { useEffect, useState } from "react";
 
@@ -5,10 +6,12 @@ const { Modal, Button } = require("react-bootstrap");
 
 
 const DownloadModal = (props) => {
+    const data = useSelector(state=>state.expense.expenseList);
     const [show, setShow] = useState(false);
 
-    console.log(props || '')
+    // console.log(props || '')
     // const pdf = generatePDF(props) || '';
+    const pdf = generatePDF(data);
 
 
     const {showModal} = props;

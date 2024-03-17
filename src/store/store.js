@@ -3,7 +3,6 @@ import authReducer from './authSlice';
 import expenseReducer from './expenseSlice';
 import themeReducer from './darkModeSlice';
 
-console.log(expenseReducer )
 const store = configureStore({
     reducer: {
         auth: authReducer,

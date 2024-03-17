@@ -14,7 +14,6 @@ const ExpenseForm = (props) => {
     const categoryRef = useRef('');
 
     useEffect(()=>{
-        console.log(expenseToEdit)
         if(expenseToEdit)
         {
             amountRef.current.value = expenseToEdit.amount;

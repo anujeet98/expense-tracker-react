@@ -18,9 +18,8 @@ const Expense = () => {
     const [expenseList, setExpenseList] = useState(expenseState);
     const [showForm, setShowForm] = useState(false);
     const [showModal, setshowModal] = useState(false);
-
-    const total = expenseList.reduce((acc,curr)=>acc+ Number(curr.amount),0);
-    if(total>10000) dispatch(authSliceActions.setPremiumEligible());
+    
+    const total = expenseState.reduce((acc,curr)=>acc+ Number(curr.amount),0);
     
     useEffect(()=>{
         if(expenseList.length===0)
@@ -41,6 +40,8 @@ const Expense = () => {
 
     useEffect(() => {
         setExpenseList(expenseState);
+        const total = expenseState.reduce((acc,curr)=>acc+ Number(curr.amount),0);
+        if(total>10000) dispatch(authSliceActions.setPremiumEligible());
     }, [expenseState]);
 
     useEffect(()=>{
