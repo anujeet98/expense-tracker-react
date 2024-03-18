@@ -48,11 +48,11 @@ const Profile = () => {
                 <Row className="d-flex gap-2">
                     <Form.Group className="d-flex col col-12 col-md-5">
                         <Form.Label className="fw-medium w-50">Full Name:</Form.Label>
-                        <Form.Control type="text" ref={nameRef} />
+                        <Form.Control id="name" type="text" ref={nameRef} />
                     </Form.Group>
                     <Form.Group className="d-flex col col-12 col-md-5">
                         <Form.Label className="fw-medium w-50">Profile Photo URL:</Form.Label>
-                        <Form.Control type="text" ref={photoRef} />
+                        <Form.Control id="photoUrl" type="text" ref={photoRef} />
                     </Form.Group>
                 </Row>
                 <Row className="d-flex gap-5 mt-3 ps-3">

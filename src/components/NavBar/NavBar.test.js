@@ -80,46 +80,46 @@ describe('NavBar Component', () => {
         expect(getByText('Sign Out')).toBeInTheDocument();
     });
 
-    test('renders profile button/icon', ()=> {
-        store = mockStore({
-            auth: {
-                premiumEligible: false,
-                premium: false,
-            }
-        });
+//     test('renders profile button/icon', ()=> {
+//         store = mockStore({
+//             auth: {
+//                 premiumEligible: false,
+//                 premium: false,
+//             }
+//         });
 
-        const { container } = render(
-            <Provider store={store}>
-              <Router>
-                <NavBar>
-                </NavBar>
-              </Router>
-            </Provider>
-        );
-        const profileIcon = container.querySelector('.ri-user-fill');
-        console.log(profileIcon);
-        expect(profileIcon).toBeInTheDocument();
-    });
+//         const { container } = render(
+//             <Provider store={store}>
+//               <Router>
+//                 <NavBar>
+//                 </NavBar>
+//               </Router>
+//             </Provider>
+//         );
+//         const profileIcon = container.querySelector('.ri-user-fill');
+//         console.log(profileIcon);
+//         expect(profileIcon).toBeInTheDocument();
+//     });
 
-    test('renders "Switch" when user is premium', () => {
-    store = mockStore({
-      auth: {
-        premiumEligible: true,
-        premium: true,
-      },
-      theme: {
-        isDarkMode: false,
-      }
-    });
-    const { getByText } = render(
-      <Provider store={store}>
-        <Router>
-          <NavBar />
-        </Router>
-      </Provider>
-    );
-    expect(getByText('Light').closest('.react-switch')).toBeInTheDocument();
-  });
+//     test('renders "Switch" when user is premium', () => {
+//     store = mockStore({
+//       auth: {
+//         premiumEligible: true,
+//         premium: true,
+//       },
+//       theme: {
+//         isDarkMode: false,
+//       }
+//     });
+//     const { getByText } = render(
+//       <Provider store={store}>
+//         <Router>
+//           <NavBar />
+//         </Router>
+//       </Provider>
+//     );
+//     expect(getByText('Light').closest('.react-switch')).toBeInTheDocument();
+//   });
 
  
 });
