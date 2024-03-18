@@ -1,6 +1,6 @@
 
 import { render, screen } from "@testing-library/react";
-import Profile from "./Profile";
+import Profile from "./Pawwadrofile";
 
 test('render profile page', () => {
     render(<Profile />);
